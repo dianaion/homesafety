@@ -1,0 +1,16 @@
+{
+  "name": "senzori",
+  "version": "0.0.0",
+  "main": "web.html",
+  "license": "MIT",
+  "ignore": [],
+  "dependencies": {
+    "express": "~4.13.3",
+    "angular": "~1.4.3",
+    "bootstrap": "~3.3.5",
+    "localforage": "~1.2.7",
+    "underscore": "~1.8.3",
+    "highcharts": "~4.1.7",
+    "semantic-ui": "~2.0.7"
+  }
+}

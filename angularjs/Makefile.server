@@ -1,0 +1,19 @@
+# Wyliodrin makefile
+
+.PHONY: build run clean
+
+CWD				=	$(shell pwd)
+BUILD_TARGETS 	=	
+RUN_TARGETS 	=	
+
+build:$(BUILD_TARGETS)
+
+run: $(RUN_TARGETS)
+	rm -f node_modules
+	ln -s /wyliodrin/node-red/node_modules node_modules
+	cd static && bower install --allow-root
+	node /wyliodrin/node-red/red.js -v main.streams
+	
+clean:
+	
+

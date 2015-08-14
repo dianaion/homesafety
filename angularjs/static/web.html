@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <head>
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<link rel="stylesheet" href="bower_components/semantic-ui/dist/semantic.min.css"/>
+		<script src="bower_components/semantic-ui/dist/semantic.min.js"></script>
+		<script src="bower_components/localforage/dist/localforage.min.js"></script>
+		<script src="bower_components/angular/angular.min.js"></script>
+		<script src="bower_components/underscore/underscore-min.js"></script>
+		<script src="bower_components/highcharts/highcharts.js"></script>
+		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  
+		
+		
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/static/app/controllers/wyliodrincontroller.js"></script>
+    <script src="/static/app/controllers/data.js"></script>
+    <link rel="stylesheet" href="/static/app/css/style.css"/>
+  </head>
+  
+  
+  <body backgound="http://www.freegreatpicture.com/files/191/18095-background-color.jpg" ng-controller="WyliodrinCtrl">
+
+  <div class="ui inverted segment"><carousel></carousel></div>
+  <div class="ui inverted segment"><br>
+
+    <div class="ui horizontal divider">
+    <img ng-src="https://dl.dropbox.com/s/dd6kpoeae0ns2dq/logo2.png"/>
+    </div>
+
+    
+    <!--meniu-->
+    <div ng-controller="TabCtrl">
+   <div class="ui top attached tabular menu" >
+      <a ng-class="{active:isSet(1), inactive:!isSet(1)}" class="item" ng-click="setTab(1)">
+        Home
+      </a>
+      <a ng-class="{active:isSet(2), inactive:!isSet(2)}" class="item" ng-click="setTab(2)">
+        Current values
+      </a>
+      <a ng-class="{active:isSet(3), inactive:!isSet(3)}" class="item" ng-click="setTab(3)">
+        Statistics
+      </a>
+  </div>
+  
+  <div class="ui blue segment" ng-show="isSet(1)">
+    <div style="color:#e59400"><p>Home security is a security system designed to alert you while you are not at home in case of fire and earthquakes. It also contains other sensors which give you information about temperature, humidity, pressure or carbone monoxide concentration. </p>
+      <p>The system was built using the folowing sensors.</p>
+    </div>
+    <div class="ui bulleted list">
+      <div class="ui red horizontal divider"></div>
+      <div class="item" style="color: #151B54"><h4>Humidity sensor</h4>
+        <img ng-src="http://www.robofun.ro/image/cache/data/produse/00000002/senzor-umiditate-500x500.JPG" height="100" width="100"/>
+      </div>
+      <div class="ui inverted horizontal divider"></div>
+      <div class="item" style="color: #151B54"><h4>Carbon monoxide sensor</h4>
+        <img ng-src="http://www.robofun.ro/image/cache/data/produse/pololu/carbon-monoxide-flammable-gas-sensor-mq-9_0-500x500.jpg" height="100" width="100"/>
+      </div>
+      <div class="ui horizontal divider"></div>
+      <div class="item" style="color: #151B54"><h4>Temperature and pressure sensor</h4>
+        <img ng-src="https://cdn.sparkfun.com/assets/b/5/8/f/6/52cf0a67ce395f924c8b4569.jpg" height="100" width="100"/>
+      </div>
+     
+  </div>
+  </div>
+  
+  <div class="ui blue segment" ng-show="isSet(2)">
+  
+  <div class="ui red huge negative message" ng-show="database.temperature[database.temperature.length - 1] >= 40 && database.monoxide[database.monoxide.length - 1] >= 500">
+  <i class="close icon"></i>
+  <div class="huge header">
+    Fire alarm!!!
+  </div>
+  <p>High temperature and carbon monoxide concentration! Ventilation on!
+</p>
+  <img ng-src="https://dl.dropbox.com/s/46f1vheb3wl4hbm/ventilator2.gif" height="200" width="200"/>
+</div>
+
+<div class="ui red huge negative message" ng-show="database.temperature[database.temperature.length - 1] >= 40 && database.monoxide[database.monoxide.length - 1] < 500">
+  <i class="close icon"></i>
+  <div class="huge header">
+    High temperature!!!
+  </div>
+</div>
+
+<div class="ui red huge negative message" ng-show="database.temperature[database.temperature.length - 1] < 40 && database.monoxide[database.monoxide.length - 1] >= 500">
+  <i class="close icon"></i>
+  <div class="huge header">
+    High carbon monoxide concentration!!!
+  </div>
+</div>
+
+<div class="ui red huge negative message" ng-show="database.barometer[database.barometer.length - 1] >= 100000">
+  <i class="close icon"></i>
+  <div class="huge header">
+    High pressure!!!
+  </div>
+</div>
+
+<div class="ui red huge negative message" ng-show="database.umidity[database.umidity.length - 1] <= 250 ">
+  <i class="close icon"></i>
+  <div class="huge header">
+    High humidity!!!
+  </div>
+</div>
+
+    <div class="ui divided selection list">
+  <a class="item" ng-class="{bad:database.temperature[database.temperature.length - 1]>=20, good:database.temperature[database.temperature.length - 1]<20}">
+    <img ng-src="https://dl.dropbox.com/s/tapkotugu71qd13/termometro.png" height="80" width="80"/>
+    <div class="ui big purple horizontal label">Temperature</div>
+    {{" " + database.temperature[database.temperature.length - 1] + " °C"}}
+  </a>
+  <a class="item" ng-class="{bad:database.umidity[database.umidity.length - 1] <= 250, good:database.umidity[database.umidity.length - 1] > 250}">
+    <img ng-src="https://dl.dropbox.com/s/vpl4wxoiey2pntz/umidittate.png" height="80" width="80"/>
+    <div class="ui big purple horizontal label">Humidity</div>
+    {{" " + database.umidity[database.umidity.length - 1] + " Rh"}}
+  </a>
+  <a class="item" ng-class="{bad:database.barometer[database.barometer.length - 1] >= 100000, good:database.barometer[database.barometer.length - 1] < 100000}">
+    <img ng-src="https://dl.dropbox.com/s/sb3psyc0jnq9df6/presiune.png" height="80" width="80"/>
+    <div class="ui big purple horizontal label">Pressure</div>
+    {{" " + database.barometer[database.barometer.length - 1] + " Pa"}}
+  </a>
+  <a class="item" ng-class="{bad:database.monoxide[database.monoxide.length - 1] >= 500, good:database.monoxide[database.monoxide.length - 1] < 500}">
+    <img ng-src="https://dl.dropbox.com/s/ord49wxfchafpw3/monoxid-de-carbon.png" height="80" width="80"/>
+    <div class="ui big purple horizontal label">Carbon monoxide concentration</div>
+    {{" " + database.monoxide[database.monoxide.length - 1] + " ppm"}}
+  </a>
+</div>
+
+  </div>
+  
+  
+  <div class="ui blue segment" ng-show="isSet(3)">
+  <desen data="database.temperature" name="a" text="Temperature variation"></desen>
+  <desen data="database.umidity" name="b" text="Humidity variation"></desen>
+  <desen data="database.monoxide" name="c" text="Carbon monoxide concentration variation"></desen>
+  <desen data="database.barometer" name="d" text="Pressure variation"></desen>
+        
+  </div>  
+</div>
+</div>
+
+
+    <script>
+      wyliodrin.onUpdate = function (variable, data, $scope)
+      {
+        console.log (variable+' '+data);
+        database[variable].push(data);
+        console.log(database.temperature);
+        if (database.online)
+        {
+          localforage.setItem('values', database, function(){
+				    console.log("Done");
+			    });
+        }
+      };
+      
+    </script>
+  </body>
+</html>
