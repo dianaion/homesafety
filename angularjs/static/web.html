@@ -45,30 +45,60 @@
   </div>
   
   <div class="ui blue segment" ng-show="isSet(1)">
-    <div style="color:#e59400"><p>Home security is a security system designed to alert you while you are not at home in case of fire and earthquakes. It also contains other sensors which give you information about temperature, humidity, pressure or carbone monoxide concentration. </p>
-      <p>The system was built using the folowing sensors.</p>
+    <div style="color:#e59400"><h4>Home security is a security system designed to alert you while you are not at home in case of fire and earthquakes. It also contains other sensors which give you information about temperature, humidity, pressure or carbone monoxide concentration. </h4>
+      <h4>The system was built using the folowing sensors.</h4>
     </div>
-    <div class="ui bulleted list">
-      <div class="ui red horizontal divider"></div>
-      <div class="item" style="color: #151B54"><h4>Humidity sensor</h4>
-        <img ng-src="http://www.robofun.ro/image/cache/data/produse/00000002/senzor-umiditate-500x500.JPG" height="100" width="100"/>
-      </div>
-      <div class="ui inverted horizontal divider"></div>
-      <div class="item" style="color: #151B54"><h4>Carbon monoxide sensor</h4>
-        <img ng-src="http://www.robofun.ro/image/cache/data/produse/pololu/carbon-monoxide-flammable-gas-sensor-mq-9_0-500x500.jpg" height="100" width="100"/>
-      </div>
-      <div class="ui horizontal divider"></div>
-      <div class="item" style="color: #151B54"><h4>Temperature and pressure sensor</h4>
-        <img ng-src="https://cdn.sparkfun.com/assets/b/5/8/f/6/52cf0a67ce395f924c8b4569.jpg" height="100" width="100"/>
-      </div>
-     
+  <div class="ui grid">
+  <div class="five wide column">
+  <div class="ui card">
+  <div class="image">
+    <img ng-src="http://www.robofun.ro/image/cache/data/produse/00000002/senzor-umiditate-500x500.JPG" height="100" width="100"/>
   </div>
+  <div class="content">
+    <a class="header">Humidity sensor</a>
+    <div class="description">
+      In an usual room, the value read on the analogic port varies between 900(high humidity) and 300(very dry).
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="five wide column">
+<div class="ui card">
+  <div class="image">
+    <img ng-src="http://www.robofun.ro/image/cache/data/produse/pololu/carbon-monoxide-flammable-gas-sensor-mq-9_0-500x500.jpg" height="100" width="100"/>
+  </div>
+  <div class="content">
+    <a class="header">Carbon monoxide sensor</a>
+    <div class="description">
+      It detects carbon monoxide in concntrations fro 10 to 1000 ppm.
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="five wide column">
+<div class="ui card">
+  <div class="image">
+    <img ng-src="https://cdn.sparkfun.com/assets/b/5/8/f/6/52cf0a67ce395f924c8b4569.jpg" height="100" width="100"/>
+    <br>
+    <br>
+  </div>
+  <div class="content">
+    <a class="header">Temperature and air pressure sensor</a>
+    <div class="description">
+      The barometric pressure sensor measures the absolute pressure of the air around it. 
+    </div>
+  </div>
+</div>
+</div>
+
+</div>
   </div>
   
   <div class="ui blue segment" ng-show="isSet(2)">
   
-  <div class="ui red huge negative message" ng-show="database.temperature[database.temperature.length - 1] >= 40 && database.monoxide[database.monoxide.length - 1] >= 500">
-  <i class="close icon"></i>
+  <div class="ui red huge negative message" ng-show="database.temperature[database.temperature.length - 1] >= 20 && database.monoxide[database.monoxide.length - 1] >= 200">
   <div class="huge header">
     Fire alarm!!!
   </div>
@@ -78,28 +108,24 @@
 </div>
 
 <div class="ui red huge negative message" ng-show="database.temperature[database.temperature.length - 1] >= 40 && database.monoxide[database.monoxide.length - 1] < 500">
-  <i class="close icon"></i>
   <div class="huge header">
     High temperature!!!
   </div>
 </div>
 
 <div class="ui red huge negative message" ng-show="database.temperature[database.temperature.length - 1] < 40 && database.monoxide[database.monoxide.length - 1] >= 500">
-  <i class="close icon"></i>
   <div class="huge header">
     High carbon monoxide concentration!!!
   </div>
 </div>
 
 <div class="ui red huge negative message" ng-show="database.barometer[database.barometer.length - 1] >= 100000">
-  <i class="close icon"></i>
   <div class="huge header">
-    High pressure!!!
+    High air pressure!!!
   </div>
 </div>
 
 <div class="ui red huge negative message" ng-show="database.umidity[database.umidity.length - 1] <= 250 ">
-  <i class="close icon"></i>
   <div class="huge header">
     High humidity!!!
   </div>
@@ -118,10 +144,10 @@
   </a>
   <a class="item" ng-class="{bad:database.barometer[database.barometer.length - 1] >= 100000, good:database.barometer[database.barometer.length - 1] < 100000}">
     <img ng-src="https://dl.dropbox.com/s/sb3psyc0jnq9df6/presiune.png" height="80" width="80"/>
-    <div class="ui big purple horizontal label">Pressure</div>
+    <div class="ui big purple horizontal label">Air pressure</div>
     {{" " + database.barometer[database.barometer.length - 1] + " Pa"}}
   </a>
-  <a class="item" ng-class="{bad:database.monoxide[database.monoxide.length - 1] >= 500, good:database.monoxide[database.monoxide.length - 1] < 500}">
+  <a class="item" ng-class="{bad:database.monoxide[database.monoxide.length - 1] >= 200, good:database.monoxide[database.monoxide.length - 1] < 200}">
     <img ng-src="https://dl.dropbox.com/s/ord49wxfchafpw3/monoxid-de-carbon.png" height="80" width="80"/>
     <div class="ui big purple horizontal label">Carbon monoxide concentration</div>
     {{" " + database.monoxide[database.monoxide.length - 1] + " ppm"}}
